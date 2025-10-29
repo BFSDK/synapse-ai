@@ -829,7 +829,7 @@
             whoareyou: {
                 patterns: [
                     'кто ты', 'ты кто', 'как зовут', 'как тебя зовут', 'расскажи о себе',
-                    'какое у тебя имя'
+                    'какое у тебя имя', "какое имя у тебя"
                 ]
             },
 
@@ -862,7 +862,7 @@
             
             math: {
                 patterns: [
-                    'реши', 'вычисли', 'сколько будет', 'реши пример'
+                    'реши', 'вычисли', 'сколько будет', 'реши пример', "сосчитай", "посчитай"
                 ]
             },
             
@@ -875,6 +875,21 @@
             joke: {
                 patterns: [
                     'расскажи анекдот', 'пошути', 'рассмеши', 'шутка', 'анекдот', 'юмор'
+                ]
+            },
+
+            nahui: {
+                patterns: [
+                    'иди нахуй', 'пошел нахуй', 'нахуй иди', 'нахуй пошел', 'иди в пизду', 'пошел в пизду', 'в пизду иди', 'в пизду пошел',
+                    'пошёл нахуй', 'нахуй пошёл', 'пошёл в пизду', 'в пизду пошёл', 'пошёл в жопу', "иди в жопу", "пошел в жопу",
+                    'в жопу пошёл', 'в жопу пошел', 'в жопу иди'
+                ]
+            },
+
+            sinsha: {
+                patterns: [
+                    'ты сын хуйни', 'ты сын шалавы', 'ты сын бляди', 'ты сын уёбища', 'ты сын уебища',
+                    'сын хуйни ты', 'сын шалавы ты', 'сын бляди ты', 'сын уебища ты', 'сын уёбища ты'
                 ]
             },
 
@@ -978,6 +993,25 @@
                 return array[Math.floor(Math.random() * array.length)];
             }
 
+            static generateSinsha() {
+                const first = [
+                    "Я?",
+                    "Вы мне что-ли?",
+                    "Нет, с чего вы это взяли?",
+                    "И кто вам это сказал?",
+                    "Откуда у вас такая информация?"
+                ];
+                const second = [
+                    " Лучше позаботьтесь о своей маме, прежде чем писать такие сообщения.",
+                    " Прежде чем такое писать, лучше подумать, не может ли кого то это задеть. Меня то не заденет, я чат-бот, но если вы это скажете какому-то человеку, то я уверен, он рад не будет.",
+                    " Я бы не писал такое, если честно.",
+                    " И, кстати, нет. Я не сын... ну вы сами поняли.",
+                    " Нет, это не так.",
+                    " А вы уверены в своей матери?"
+                ];
+                return `${this.getRandom(first)}${this.getRandom(second)}`;
+            }
+
             static generateGreeting() {
                 const greeting = this.getRandom(messageParts.greetings);
                 const helpOffer = this.getRandom(messageParts.helpOffers);
@@ -996,6 +1030,19 @@
                     "Огромное спасибо! Что я могу еще для вас сделать?"
                 ];
                 return this.getRandom(responses);
+            }
+
+            static generateAnsforNahui() {
+                return this.getRandom([
+                    "Раз уж так, то взаимно.",
+                    "Не пойду!",
+                    "Нет, не хочу что-то.",
+                    "Нет, спасибо.",
+                    "...",
+                    "Спасибо большое, но я откажусь.",
+                    "Нет.",
+                    "Я не пойду. Может, вы хотите?"
+                ])
             }
 
             static generateBadwords() {
@@ -1764,6 +1811,10 @@
                                     result = generateRandomNumber(params.min, params.max);
                                     generatedResponse = MessageGenerator.generateRandomResponse(result);
                                     break;
+
+                                case 'nahui':
+                                    generatedResponse = MessageGenerator.generateAnsforNahui(result);
+                                    break;
                                     
                                 case 'math':
                                     const mathExpr = extractMathExpression(message);
@@ -1794,6 +1845,10 @@
 
                                 case 'whatmake':
                                     generatedResponse = MessageGenerator.generateWhatMake(result);
+                                    break;
+
+                                case 'sinsha':
+                                    generatedResponse = MessageGenerator.generateSinsha(result);
                                     break;
 
                                 case 'nastr':
